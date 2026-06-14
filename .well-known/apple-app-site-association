@@ -11,6 +11,10 @@
           {
             "/": "/join/*",
             "comment": "Fallback join links"
+          },
+          {
+            "/": "/m/*",
+            "comment": "Message links — pointward.app/m/<id>"
           }
         ]
       }
