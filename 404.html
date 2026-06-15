@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Pointward</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="You have a thought waiting on Pointward">
+  <meta property="og:description" content="Someone sent you a thought — tap to preview.">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d0d14;
+      color: #e8e0f0;
+      font-family: -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 24px;
+      overflow-x: hidden;
+    }
+    .wrap { max-width: 360px; width: 100%; position: relative; }
+
+    .kicker { font-size: 13px; letter-spacing: 0.03em; color: #8a7ba0; margin-bottom: 6px; }
+    .tease { font-size: 12px; letter-spacing: 0.05em; color: #6b5f7a; margin-bottom: 28px; }
+    .tw { animation: tw 2.2s ease-in-out infinite; }
+    .tw2 { animation: tw 2.2s ease-in-out infinite 0.7s; }
+    @keyframes tw { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+    .emojiwrap { position: relative; height: 120px; display: flex; align-items: center; justify-content: center; margin-bottom: 26px; }
+    .halo { position: absolute; width: 130px; height: 130px; border-radius: 50%; background: #6b4a9e; animation: glow 3.4s ease-in-out infinite; }
+    @keyframes glow { 0%,100% { opacity: 0.25; transform: scale(0.9); } 50% { opacity: 0.55; transform: scale(1.08); } }
+    .emoji { position: relative; font-size: 80px; line-height: 1; animation: float 3.4s ease-in-out infinite; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+    .message { font-family: Georgia, serif; font-size: 22px; line-height: 1.5; color: #e8e0f0; margin-bottom: 16px; }
+    .from { font-size: 15px; color: #8a7ba0; margin-bottom: 30px; }
+
+    .divider { height: 1px; background: #2a2438; margin: 0 0 26px; }
+
+    .hero { font-size: 15px; line-height: 1.5; color: #c4a8d4; font-weight: 500; margin-bottom: 10px; }
+    .bonuses { font-size: 13px; line-height: 1.7; color: #6b5f7a; margin-bottom: 24px; }
+
+    .btn {
+      display: block;
+      background: #3a2e50;
+      border: 1px solid #7c6b8e;
+      color: #e8e0f0;
+      padding: 15px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn span { position: relative; z-index: 1; }
+    .btn::after {
+      content: "";
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(105deg, transparent 30%, rgba(196,168,212,0.30) 50%, transparent 70%);
+      background-size: 240px 100%;
+      background-repeat: no-repeat;
+      animation: shine 3s ease-in-out infinite;
+    }
+    @keyframes shine { 0% { background-position: -180px; } 100% { background-position: 320px; } }
+
+    .trust { font-size: 12px; color: #6b5f7a; letter-spacing: 0.03em; margin-top: 12px; }
+    .code { font-size: 12px; color: #4a3860; margin-top: 30px; line-height: 1.6; }
+    .code b { font-weight: 500; letter-spacing: 0.12em; color: #6b5f7a; }
+
+    .drift { position: absolute; color: #7c6b8e; opacity: 0.16; }
+    .d1 { top: 70px; left: -4px; font-size: 22px; animation: drift 5.6s ease-in-out infinite; }
+    .d2 { top: 150px; right: -2px; font-size: 20px; animation: drift 6.2s ease-in-out infinite 0.9s; }
+    .d3 { bottom: 90px; left: 0; font-size: 19px; animation: drift 6.6s ease-in-out infinite 0.5s; }
+    @keyframes drift { 0%,100% { transform: translateY(0); opacity: 0.1; } 50% { transform: translateY(-9px); opacity: 0.22; } }
+
+    .state { color: #8a7ba0; font-size: 16px; line-height: 1.7; }
+    .state .mark { font-size: 52px; margin-bottom: 18px; }
+    #content, #notfound { display: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div id="loading" class="state">opening your thought&hellip;</div>
+
+    <div id="notfound" class="state">
+      <div class="mark">🧭</div>
+      this thought has flown on &#10022;<br><br>
+      <a class="btn" id="nf-btn" href="TESTFLIGHT_LINK_PLACEHOLDER" style="max-width:260px;margin:18px auto 0"><span>get Pointward</span></a>
+    </div>
+
+    <div id="content">
+      <div class="drift d1">🚀</div>
+      <div class="drift d2">🧭</div>
+      <div class="drift d3">🪶</div>
+
+      <p class="kicker"><span id="kicker-name">someone</span> sent you a thought</p>
+      <p class="tease"><span class="tw">&#10022;</span> it moves when it arrives <span class="tw2">&#10022;</span></p>
+
+      <div class="emojiwrap">
+        <div class="halo"></div>
+        <div class="emoji" id="emoji" role="img" aria-label="thought">💭</div>
+      </div>
+
+      <p class="message" id="message"></p>
+      <p class="from">from <span id="from-name">someone</span></p>
+
+      <div class="divider"></div>
+
+      <p class="hero">see the full animation &mdash; the way <span id="hero-name">they</span> intended &#10022;</p>
+      <p class="bonuses">send one back &middot; send custom animations to others &middot; save it &middot; and more</p>
+
+      <a class="btn" id="open-btn" href="TESTFLIGHT_LINK_PLACEHOLDER"><span>Open Pointward</span></a>
+      <p class="trust">free &middot; no ads &middot; for real</p>
+
+      <p class="code" id="code-line" style="display:none">
+        already have the app? open it and enter<br><b id="short-code"></b>
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    /* ===========================================================
+       FILL THIS IN when you have it (the ONLY value left to set):
+       Replace BOTH "TESTFLIGHT_LINK_PLACEHOLDER" hrefs above with
+       your real install link once external TestFlight review is
+       done (or your App Store link at launch). e.g.
+       https://testflight.apple.com/join/XXXXXXXX
+       Until then the button renders but goes nowhere real.
+       =========================================================== */
+    var INSTALL_URL = "TESTFLIGHT_LINK_PLACEHOLDER";
+
+    /* --- Supabase (real, verified values — anon key is public/shippable) --- */
+    var SB_URL  = "https://jlbgdlgwtrkmqcfnomlr.supabase.co";
+    var SB_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpsYmdkbGd3dHJrbXFjZm5vbWxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NjYwODYsImV4cCI6MjA5NjM0MjA4Nn0.QN0-lU4LrxEjUUqsR0r2dtZHeDbSajSHXeyb3H_NcHM";
+
+    function showOnly(id) {
+      ['loading','content','notfound'].forEach(function(x){
+        document.getElementById(x).style.display = (x === id ? 'block' : 'none');
+      });
+    }
+
+    function getMessageId() {
+      /* path-style links: /m/<uuid>  (served via this 404.html on GitHub Pages) */
+      var path = window.location.pathname;
+      var after = path.split('/m/')[1];
+      if (after) { return after.replace(/\/+$/,'').split('?')[0].split('#')[0]; }
+      var q = new URLSearchParams(window.location.search).get('id');
+      return q || null;
+    }
+
+    function isMessagePath() {
+      return window.location.pathname.indexOf('/m/') !== -1
+             || new URLSearchParams(window.location.search).get('id');
+    }
+
+    function notFound() {
+      document.getElementById('nf-btn').href = INSTALL_URL;
+      showOnly('notfound');
+    }
+
+    function render(msg) {
+      if (!msg) { notFound(); return; }
+      var name = msg.sender_display_name || 'someone';
+      document.getElementById('emoji').textContent    = msg.emoji || '💭';
+      document.getElementById('message').textContent  = msg.content || '';
+      document.getElementById('from-name').textContent  = name;
+      document.getElementById('kicker-name').textContent = name;
+      document.getElementById('hero-name').textContent   = name;
+      if (msg.short_code) {
+        document.getElementById('short-code').textContent = msg.short_code;
+        document.getElementById('code-line').style.display = 'block';
+      }
+      document.getElementById('open-btn').href = INSTALL_URL;
+      /* NOTE: deliberately NOT calling mark_opened here.
+         "Read" = opened in full IN THE APP (the way the sender intended).
+         A web preview is a glance, not a read — so the sender's read-receipt
+         must NOT flip from a web view. The app flips opened on full playback. */
+      showOnly('content');
+    }
+
+    function load() {
+      if (!isMessagePath()) { notFound(); return; }   /* non-/m 404s land here too */
+      var id = getMessageId();
+      if (!id) { notFound(); return; }
+      fetch(SB_URL + "/rest/v1/rpc/get_message", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SB_ANON,
+          "Authorization": "Bearer " + SB_ANON
+        },
+        body: JSON.stringify({ p_id: id })
+      })
+      .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(rows){ render(Array.isArray(rows) ? rows[0] : rows); })
+      .catch(function(){ notFound(); });
+    }
+
+    window.onload = load;
+  </script>
+</body>
+</html>
