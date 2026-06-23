@@ -160,6 +160,18 @@
              || new URLSearchParams(window.location.search).get('id');
     }
 
+    /* Clipboard bridge: on the install tap, silently copy the message link so a
+       freshly-installed app can read it on first launch (primary cold-receive path).
+       Best-effort — never blocks or alters navigation; any failure is a silent no-op. */
+    function copyLink() {
+      try {
+        var id = getMessageId();
+        if (id && navigator.clipboard) {
+          navigator.clipboard.writeText("https://pointward.app/m/" + id).catch(function(){});
+        }
+      } catch (e) {}
+    }
+
     function notFound() {
       document.getElementById('nf-btn').href = INSTALL_URL;
       showOnly('notfound');
@@ -186,6 +198,10 @@
     }
 
     function load() {
+      /* additive: copy the message link on either install tap. onclick returns
+         undefined → no preventDefault → the <a href> navigation still proceeds. */
+      document.getElementById('nf-btn').onclick   = copyLink;
+      document.getElementById('open-btn').onclick = copyLink;
       if (!isMessagePath()) { notFound(); return; }   /* non-/m 404s land here too */
       var id = getMessageId();
       if (!id) { notFound(); return; }
