@@ -19,7 +19,7 @@ body {
 .kicker { font-size: 15px; letter-spacing: 0.01em; color: #b8a9cc; margin-bottom: 18px; }
 
 /* ---- the teaser stage: per-style sky + swappable animated core ---- */
-.teaser-stage { position: relative; width: 100%; height: 152px; border-radius: 20px;
+.teaser-stage { position: relative; width: 100%; height: 210px; border-radius: 20px;
   overflow: hidden; margin: 0 auto 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
 .teaser-sky { position: absolute; inset: 0; transition: background 0.3s ease; }
 .teaser-core { position: absolute; inset: 0; }
@@ -28,14 +28,7 @@ body {
 .st { fill: #ffffff; animation: tkstar 3s ease-in-out infinite; }
 @keyframes tkstar { 0%,100%{opacity:0.18} 50%{opacity:0.9} }
 
-/* ---- blurred / sealed hidden message — content is NEVER rendered ---- */
-.msg-veil { display: flex; flex-direction: column; align-items: center; gap: 8px;
-  margin-bottom: 12px; filter: blur(5px); opacity: 0.9; }
-.msg-veil .bar { height: 12px; border-radius: 6px;
-  background: linear-gradient(90deg, #c4a8d4, #7c6b8e); animation: veil 2s ease-in-out infinite; }
-.msg-veil .b1 { width: 76%; } .msg-veil .b2 { width: 90%; animation-delay: 0.25s; } .msg-veil .b3 { width: 58%; animation-delay: 0.5s; }
-@keyframes veil { 0%,100%{opacity:0.35} 50%{opacity:0.7} }
-.reveal-cta { font-size: 14px; color: #c4a8d4; font-weight: 500; letter-spacing: 0.01em; margin-bottom: 24px; }
+.reveal-cta { font-size: 16px; color: #c4a8d4; font-weight: 500; letter-spacing: 0.01em; margin-bottom: 24px; }
 
 /* ---- generic fallback core ---- */
 .gen { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
@@ -85,9 +78,6 @@ body {
       <div class="teaser-core" id="teaser-core"><!-- core mounted by mountTeaser() --></div>
     </div>
 
-    <div class="msg-veil" role="img" aria-label="hidden message">
-      <span class="bar b1"></span><span class="bar b2"></span><span class="bar b3"></span>
-    </div>
     <p class="reveal-cta">Finish the moment that <span id="reveal-name">someone</span> sent you &#10022;</p>
 
     <a class="btn" id="open-btn" href="https://testflight.apple.com/join/rjAS4cnk"><span>Open Pointward</span></a>
