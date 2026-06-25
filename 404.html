@@ -82,7 +82,9 @@ body {
 
     <a class="btn" id="open-btn" href="https://testflight.apple.com/join/rjAS4cnk"><span>Open Pointward</span></a>
     <p class="trust">free &middot; no ads &middot; for real</p>
+    <!-- recipient-facing short-code prompt removed (recipients no longer told to enter a code; app still generates codes for safety). Original preserved:
     <p class="code" id="code-line" style="display:none">already have the app? open it and enter<br><b id="short-code"></b></p>
+    -->
   </div>
 </div>
 
@@ -320,7 +322,8 @@ function render(msg){
   document.getElementById('reveal-name').textContent = name;
   /* read the field that's already there → pick a teaser. content is NEVER rendered. */
   mountTeaser(msg.instrument, { emoji: msg.emoji || '💭', name: name });
-  if(msg.short_code){ document.getElementById('short-code').textContent = msg.short_code; document.getElementById('code-line').style.display='block'; }
+  /* recipient-facing short-code prompt removed (dead branch — source has no short_code field). Original preserved:
+  if(msg.short_code){ document.getElementById('short-code').textContent = msg.short_code; document.getElementById('code-line').style.display='block'; } */
   document.getElementById('open-btn').href = INSTALL_URL;
   /* deliberately NOT calling mark_opened — a web glance is not an in-app read. */
   showOnly('content');
