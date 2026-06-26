@@ -16,8 +16,7 @@ body {
 }
 .wrap { max-width: 360px; width: 100%; position: relative; }
 
-.kicker { font-size: 18px; letter-spacing: 0.01em; color: #e8e0f0; margin-bottom: 16px; font-weight: 500; }
-.kicker #kicker-name { color: #c4a8d4; font-weight: 700; }
+.kicker { font-size: 15px; letter-spacing: 0.01em; color: #b8a9cc; margin-bottom: 18px; }
 
 /* ---- the teaser stage: per-style sky + swappable animated core ---- */
 .teaser-stage { position: relative; width: 100%; height: 210px; border-radius: 20px;
@@ -29,25 +28,33 @@ body {
 .st { fill: #ffffff; animation: tkstar 3s ease-in-out infinite; }
 @keyframes tkstar { 0%,100%{opacity:0.18} 50%{opacity:0.9} }
 
-/* ---- message-receipt vintage compass (page-scoped .mc-*; mirrors app VintageFaceView) ---- */
-.mc-stage { position: relative; width: 100%; height: 210px; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; }
-.mc-face { position: relative; width: 200px; height: 200px; border-radius: 50%; box-shadow: 0 8px 24px rgba(0,0,0,0.45); }
+/* ---- compass arrival animation (page-scoped .mc-*; mirrors app VintageFaceView).
+   Mounted by coreGlow — the compass instrument travels as wire style "glow"
+   (Instrument.compass.senderStyle == .glow). ---- */
+.mc-wrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.mc-face { position: relative; width: 200px; height: 200px; border-radius: 50%; }
 .mc-art { position: absolute; inset: 0; width: 200px; height: 200px; }
+.mc-flash { position: absolute; left: 50%; top: 50%; width: 150px; height: 150px; margin: -75px 0 0 -75px;
+  border-radius: 50%; background: radial-gradient(circle, rgba(255,215,0,0.55) 0%, rgba(255,215,0,0) 68%); opacity: 0; z-index: 2; animation: mc-flash 6s ease-out infinite; }
 .mc-breath { position: absolute; left: 50%; top: 50%; width: 92px; height: 92px; margin: -46px 0 0 -46px;
   border-radius: 50%; border: 1px solid rgba(196,168,212,0.22); animation: mc-breathe 4s ease-in-out infinite; }
-.mc-lock { position: absolute; left: 50%; top: 50%; width: 80px; height: 80px; margin: -40px 0 0 -40px;
-  border-radius: 50%; border: 1.5px solid rgba(255,215,0,0.7); opacity: 0; animation: mc-lock 6s ease-out infinite; }
+.mc-lock, .mc-lock2 { position: absolute; left: 50%; top: 50%; width: 80px; height: 80px; margin: -40px 0 0 -40px;
+  border-radius: 50%; border: 1.5px solid rgba(255,215,0,0.8); box-shadow: 0 0 10px rgba(255,215,0,0.5); opacity: 0; }
+.mc-lock { animation: mc-lock 6s ease-out infinite; }
+.mc-lock2 { animation: mc-lock2 6s ease-out infinite; }
 .mc-needle { position: absolute; left: 50%; top: 50%; width: 14px; height: 140px; margin: -70px 0 0 -7px;
-  transform: rotate(0deg); transform-origin: 50% 50%; animation: mc-seek 6s cubic-bezier(.45,0,.2,1) infinite; }
+  transform: rotate(0deg); transform-origin: 50% 50%; animation: mc-seek 6s cubic-bezier(.45,.05,.25,1) infinite; }
 .mc-needle i { position: absolute; left: 0; width: 0; height: 0; }
 .mc-needle .mc-nN { top: 4px; border-left: 7px solid transparent; border-right: 7px solid transparent; border-bottom: 62px solid #FFD700; }
 .mc-needle .mc-nS { bottom: 4px; left: 1px; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 46px solid #8b6914; }
 .mc-emoji { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%) scale(1); font-size: 34px; line-height: 1; z-index: 3; animation: mc-emoji 6s ease-in-out infinite; }
 .mc-hub { position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: #221a0e; border: 1px solid #c9a86a; z-index: 4; }
-@keyframes mc-seek { 0%{transform:rotate(-118deg)} 38%{transform:rotate(9deg)} 46%{transform:rotate(-4deg)} 52%{transform:rotate(1.5deg)} 58%{transform:rotate(0deg)} 78%{transform:rotate(0deg)} 100%{transform:rotate(-118deg)} }
-@keyframes mc-lock { 0%,52%{opacity:0;transform:scale(.6)} 60%{opacity:.9;transform:scale(1)} 80%{opacity:0;transform:scale(1.5)} 100%{opacity:0} }
+@keyframes mc-seek { 0%{transform:rotate(-122deg)} 40%{transform:rotate(14deg)} 48%{transform:rotate(-7deg)} 54%{transform:rotate(3deg)} 60%{transform:rotate(0deg)} 80%{transform:rotate(0deg)} 100%{transform:rotate(-122deg)} }
+@keyframes mc-lock { 0%,56%{opacity:0;transform:scale(.4)} 62%{opacity:1;transform:scale(1)} 82%{opacity:0;transform:scale(2)} 100%{opacity:0} }
+@keyframes mc-lock2 { 0%,60%{opacity:0;transform:scale(.4)} 66%{opacity:.8;transform:scale(1)} 86%{opacity:0;transform:scale(2.5)} 100%{opacity:0} }
+@keyframes mc-flash { 0%,56%{opacity:0} 62%{opacity:.6} 80%{opacity:0} 100%{opacity:0} }
 @keyframes mc-breathe { 0%,100%{transform:scale(.96);opacity:.5} 50%{transform:scale(1.05);opacity:.85} }
-@keyframes mc-emoji { 0%,52%{transform:translate(-50%,-50%) scale(1)} 60%{transform:translate(-50%,-50%) scale(1.14)} 80%{transform:translate(-50%,-50%) scale(1.06)} 100%{transform:translate(-50%,-50%) scale(1)} }
+@keyframes mc-emoji { 0%,56%{transform:translate(-50%,-50%) scale(1)} 62%{transform:translate(-50%,-50%) scale(1.3)} 70%{transform:translate(-50%,-50%) scale(.95)} 78%{transform:translate(-50%,-50%) scale(1.07)} 100%{transform:translate(-50%,-50%) scale(1)} }
 
 .reveal-cta { font-size: 16px; color: #c4a8d4; font-weight: 500; letter-spacing: 0.01em; margin-bottom: 24px; }
 
@@ -92,27 +99,12 @@ body {
   </div>
 
   <div id="content">
-    <p class="kicker"><span id="kicker-name">someone</span> sent you a thought &#10022;</p>
+    <p class="kicker"><span id="kicker-name">someone</span> sent you a thought</p>
 
-    <div class="mc-stage"><div class="mc-face">
-      <svg class="mc-art" viewBox="0 0 200 200" aria-hidden="true">
-        <defs><radialGradient id="mcf" cx="50%" cy="42%" r="58%">
-          <stop offset="0" stop-color="#221a0e"/><stop offset="1" stop-color="#120d06"/></radialGradient></defs>
-        <circle cx="100" cy="100" r="100" fill="url(#mcf)"/>
-        <circle cx="100" cy="100" r="99" fill="none" stroke="#e3c887" stroke-width="1.4" stroke-opacity=".9"/>
-        <circle cx="100" cy="100" r="97" fill="none" stroke="#8a703f" stroke-width=".5" stroke-opacity=".7"/>
-        <circle cx="100" cy="100" r="93" fill="none" stroke="#c9a86a" stroke-width="1" stroke-opacity=".8"/>
-        <line x1="100" y1="56" x2="100" y2="144" stroke="#56441f" stroke-width=".5" stroke-opacity=".8"/>
-        <line x1="56" y1="100" x2="144" y2="100" stroke="#56441f" stroke-width=".5" stroke-opacity=".8"/>
-        <circle cx="100" cy="100" r="64" fill="none" stroke="#8a703f" stroke-width=".5" stroke-dasharray="1.5 2" stroke-opacity=".8"/>
-        <g id="mc-ticks"></g>
-      </svg>
-      <div class="mc-breath"></div>
-      <div class="mc-lock"></div>
-      <div class="mc-needle"><i class="mc-nN"></i><i class="mc-nS"></i></div>
-      <div class="mc-emoji" id="mc-emoji" role="img" aria-label="thought">💭</div>
-      <div class="mc-hub"></div>
-    </div></div>
+    <div class="teaser-stage">
+      <div class="teaser-sky" id="teaser-sky"></div>
+      <div class="teaser-core" id="teaser-core"><!-- core mounted by mountTeaser() --></div>
+    </div>
 
     <p class="reveal-cta">Finish the moment that <span id="reveal-name">someone</span> sent you &#10022;</p>
 
@@ -248,17 +240,29 @@ function coreBirthday(ctx){
 }
 
 /* ---------- GLOW (night) — orb + expanding gold ring, never completes impact ---------- */
+/* GLOW = the COMPASS arrival. The compass instrument travels as wire style "glow"
+   (Instrument.compass.senderStyle == .glow), so this renders the vintage brass
+   compass with a lock "wow" moment. Mounts the .mc-* markup (CSS lives in <head>).
+   Prior glow-orb core preserved in git history (commit e7ca95a). */
 function coreGlow(ctx){
-  return { sky: SKY.night,
-    css: '@keyframes gl_ring{0%{transform:scale(.3);opacity:.85}100%{transform:scale(1.7);opacity:0}}'
-       + '@keyframes gl_orb{0%,100%{transform:scale(.94);opacity:.8}50%{transform:scale(1.06);opacity:1}}'
-       + '.gl-ring{animation:gl_ring 2.25s ease-out infinite;transform-box:fill-box;transform-origin:center}.gl-ring2{animation:gl_ring 2.25s ease-out infinite 1.12s;transform-box:fill-box;transform-origin:center}'
-       + '.gl-orb{animation:gl_orb 2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}',
-    html: '<svg viewBox="0 0 300 152">'+stars([[50,34,1,0],[246,40,1,.9],[150,20,1,1.3]])
-       + '<circle class="gl-ring" cx="150" cy="76" r="22" fill="none" stroke="#FFD700" stroke-width="2"/>'
-       + '<circle class="gl-ring2" cx="150" cy="76" r="22" fill="none" stroke="#c4a8d4" stroke-width="2"/>'
-       + '<circle class="gl-orb" cx="150" cy="76" r="20" fill="#aa8cd3" opacity=".55"/>'
-       + '<text x="150" y="76" text-anchor="middle" dominant-baseline="central" font-size="30">'+escapeHtml(ctx.emoji||'✨')+'</text></svg>' };
+  return { sky: SKY.brand, css: '',
+    html: '<div class="mc-wrap"><div class="mc-face">'
+       + '<svg class="mc-art" viewBox="0 0 200 200" aria-hidden="true">'
+       +   '<defs><radialGradient id="mcf" cx="50%" cy="42%" r="58%"><stop offset="0" stop-color="#221a0e"/><stop offset="1" stop-color="#120d06"/></radialGradient></defs>'
+       +   '<circle cx="100" cy="100" r="100" fill="url(#mcf)"/>'
+       +   '<circle cx="100" cy="100" r="99" fill="none" stroke="#e3c887" stroke-width="1.4" stroke-opacity=".9"/>'
+       +   '<circle cx="100" cy="100" r="97" fill="none" stroke="#8a703f" stroke-width=".5" stroke-opacity=".7"/>'
+       +   '<circle cx="100" cy="100" r="93" fill="none" stroke="#c9a86a" stroke-width="1" stroke-opacity=".8"/>'
+       +   '<line x1="100" y1="56" x2="100" y2="144" stroke="#56441f" stroke-width=".5" stroke-opacity=".8"/>'
+       +   '<line x1="56" y1="100" x2="144" y2="100" stroke="#56441f" stroke-width=".5" stroke-opacity=".8"/>'
+       +   '<circle cx="100" cy="100" r="64" fill="none" stroke="#8a703f" stroke-width=".5" stroke-dasharray="1.5 2" stroke-opacity=".8"/>'
+       +   '<g>'+mcFaceMarks()+'</g>'
+       + '</svg>'
+       + '<div class="mc-flash"></div><div class="mc-breath"></div><div class="mc-lock"></div><div class="mc-lock2"></div>'
+       + '<div class="mc-needle"><i class="mc-nN"></i><i class="mc-nS"></i></div>'
+       + '<div class="mc-emoji">'+escapeHtml(ctx.emoji||'💭')+'</div>'
+       + '<div class="mc-hub"></div>'
+       + '</div></div>' };
 }
 
 /* ---------- BOWARROW (night) — draws, releases, arrow flies (then loops) ---------- */
@@ -378,7 +382,7 @@ function render(msg){
   document.getElementById('kicker-name').textContent = name;
   document.getElementById('reveal-name').textContent = name;
   /* read the field that's already there → pick a teaser. content is NEVER rendered. */
-  document.getElementById('mc-emoji').textContent = msg.emoji || '💭';
+  mountTeaser(msg.instrument, { emoji: msg.emoji || '💭', name: name });
   /* recipient-facing short-code prompt removed (dead branch — source has no short_code field). Original preserved:
   if(msg.short_code){ document.getElementById('short-code').textContent = msg.short_code; document.getElementById('code-line').style.display='block'; } */
   document.getElementById('open-btn').href = INSTALL_URL;
@@ -387,7 +391,6 @@ function render(msg){
 }
 
 function load(){
-  var ticks=document.getElementById('mc-ticks'); if(ticks){ ticks.innerHTML = mcFaceMarks(); }
   document.getElementById('nf-btn').onclick = copyLink;
   document.getElementById('open-btn').onclick = copyLink;
   if(new URLSearchParams(window.location.search).get('teasertest')==='1'){ teaserSelfTest(); }
