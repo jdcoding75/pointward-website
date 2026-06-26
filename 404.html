@@ -14,9 +14,47 @@ body {
   display: flex; align-items: center; justify-content: center;
   min-height: 100vh; text-align: center; padding: 24px; overflow-x: hidden;
 }
-.wrap { max-width: 360px; width: 100%; position: relative; }
+.wrap { max-width: 360px; width: 100%; position: relative; z-index: 1; }
 
-.kicker { font-size: 15px; letter-spacing: 0.01em; color: #b8a9cc; margin-bottom: 18px; }
+/* ---- compass ambiance: vintage wheel face + seeking needle (tier-1, pure CSS) ---- */
+.compass { position: fixed; top: 50%; left: 50%; width: 340px; height: 340px;
+  margin: -170px 0 0 -170px; z-index: 0; pointer-events: none; opacity: 0.5; }
+.compass::before { content: ""; position: absolute; inset: 0; border-radius: 50%;
+  border: 1px solid #3a2e50;
+  box-shadow: inset 0 0 0 1px rgba(124,107,142,0.18), inset 0 0 70px rgba(240,208,96,0.12); }
+.compass-ticks { position: absolute; inset: 16px; border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(196,168,212,0.22) 0deg 0.6deg, transparent 0.6deg 6deg);
+  -webkit-mask: radial-gradient(circle, transparent 0 62%, #000 63% 71%, transparent 72%);
+          mask: radial-gradient(circle, transparent 0 62%, #000 63% 71%, transparent 72%); }
+.compass-rose span { position: absolute; left: 50%; top: 50%; font-size: 12px;
+  letter-spacing: 0.1em; color: #7c6b8e; font-family: Georgia, serif; }
+.compass-rose .n { transform: translate(-50%,-50%) translateY(-148px); color: #f0d060; }
+.compass-rose .s { transform: translate(-50%,-50%) translateY(148px); }
+.compass-rose .e { transform: translate(-50%,-50%) translateX(148px); }
+.compass-rose .w { transform: translate(-50%,-50%) translateX(-148px); }
+.needle { position: absolute; left: 50%; top: 50%; width: 6px; height: 200px;
+  margin: -100px 0 0 -3px; transform: rotate(0deg); transform-origin: 50% 50%;
+  animation: needleSeek 7s cubic-bezier(.5,0,.2,1) infinite; }
+.needle .n-tip, .needle .s-tip { position: absolute; left: 0; width: 0; height: 0;
+  border-left: 3px solid transparent; border-right: 3px solid transparent; }
+.needle .n-tip { top: 0; border-bottom: 100px solid #f0d060; }
+.needle .s-tip { bottom: 0; border-top: 100px solid #6b5f7a; }
+.needle::after { content: ""; position: absolute; left: 50%; top: -2px; width: 10px; height: 10px;
+  margin-left: -5px; border-radius: 50%; background: #f0d060; filter: blur(3px);
+  animation: needleGlow 7s ease-in-out infinite; }
+.compass-hub { position: absolute; left: 50%; top: 50%; width: 14px; height: 14px;
+  margin: -7px 0 0 -7px; border-radius: 50%; background: #3a2e50; border: 1px solid #7c6b8e; z-index: 2; }
+.lock-ring { position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; margin: -20px 0 0 -20px;
+  border-radius: 50%; border: 1.5px solid rgba(240,208,96,0.6); opacity: 0;
+  animation: lockPulse 7s ease-out infinite; }
+@keyframes needleSeek { 0%{transform:rotate(-130deg)} 34%{transform:rotate(12deg)}
+  42%{transform:rotate(-5deg)} 50%{transform:rotate(0deg)} 72%{transform:rotate(0deg)} 100%{transform:rotate(-130deg)} }
+@keyframes needleGlow { 0%,42%{opacity:.25} 50%{opacity:1} 72%{opacity:.6} 100%{opacity:.25} }
+@keyframes lockPulse { 0%,44%{opacity:0;transform:scale(.5)} 50%{opacity:.9;transform:scale(1)}
+  72%{opacity:0;transform:scale(1.8)} 100%{opacity:0;transform:scale(1.8)} }
+
+.kicker { font-size: 19px; letter-spacing: 0.01em; color: #cdbfe0; margin-bottom: 20px; font-weight: 500; }
+.kicker #kicker-name { color: #c4a8d4; font-weight: 700; }
 
 /* ---- the teaser stage: per-style sky + swappable animated core ---- */
 .teaser-stage { position: relative; width: 100%; height: 210px; border-radius: 20px;
@@ -60,6 +98,13 @@ body {
 <style id="core-style"></style>
 </head>
 <body>
+<div class="compass" aria-hidden="true">
+  <div class="compass-ticks"></div>
+  <div class="compass-rose"><span class="n">N</span><span class="e">E</span><span class="s">S</span><span class="w">W</span></div>
+  <div class="lock-ring"></div>
+  <div class="needle"><span class="n-tip"></span><span class="s-tip"></span></div>
+  <div class="compass-hub"></div>
+</div>
 <div class="wrap">
 
   <div id="loading" class="state">opening your thought&hellip;</div>
@@ -71,7 +116,7 @@ body {
   </div>
 
   <div id="content">
-    <p class="kicker"><span id="kicker-name">someone</span> sent you a thought</p>
+    <p class="kicker"><span id="kicker-name">someone</span> sent you a thought &#10022;</p>
 
     <div class="teaser-stage">
       <div class="teaser-sky" id="teaser-sky"></div>
