@@ -16,7 +16,8 @@ body {
 }
 .wrap { max-width: 360px; width: 100%; position: relative; }
 
-.kicker { font-size: 15px; letter-spacing: 0.01em; color: #b8a9cc; margin-bottom: 18px; }
+.kicker { font-size: 18px; letter-spacing: 0.01em; color: #e8e0f0; margin-bottom: 16px; font-weight: 500; }
+.kicker #kicker-name { color: #c4a8d4; font-weight: 700; }
 
 /* ---- the teaser stage: per-style sky + swappable animated core ---- */
 .teaser-stage { position: relative; width: 100%; height: 210px; border-radius: 20px;
@@ -27,6 +28,26 @@ body {
 /* shared star twinkle (cores drop <circle class="st">) */
 .st { fill: #ffffff; animation: tkstar 3s ease-in-out infinite; }
 @keyframes tkstar { 0%,100%{opacity:0.18} 50%{opacity:0.9} }
+
+/* ---- message-receipt vintage compass (page-scoped .mc-*; mirrors app VintageFaceView) ---- */
+.mc-stage { position: relative; width: 100%; height: 210px; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; }
+.mc-face { position: relative; width: 200px; height: 200px; border-radius: 50%; box-shadow: 0 8px 24px rgba(0,0,0,0.45); }
+.mc-art { position: absolute; inset: 0; width: 200px; height: 200px; }
+.mc-breath { position: absolute; left: 50%; top: 50%; width: 92px; height: 92px; margin: -46px 0 0 -46px;
+  border-radius: 50%; border: 1px solid rgba(196,168,212,0.22); animation: mc-breathe 4s ease-in-out infinite; }
+.mc-lock { position: absolute; left: 50%; top: 50%; width: 80px; height: 80px; margin: -40px 0 0 -40px;
+  border-radius: 50%; border: 1.5px solid rgba(255,215,0,0.7); opacity: 0; animation: mc-lock 6s ease-out infinite; }
+.mc-needle { position: absolute; left: 50%; top: 50%; width: 14px; height: 140px; margin: -70px 0 0 -7px;
+  transform: rotate(0deg); transform-origin: 50% 50%; animation: mc-seek 6s cubic-bezier(.45,0,.2,1) infinite; }
+.mc-needle i { position: absolute; left: 0; width: 0; height: 0; }
+.mc-needle .mc-nN { top: 4px; border-left: 7px solid transparent; border-right: 7px solid transparent; border-bottom: 62px solid #FFD700; }
+.mc-needle .mc-nS { bottom: 4px; left: 1px; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 46px solid #8b6914; }
+.mc-emoji { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%) scale(1); font-size: 34px; line-height: 1; z-index: 3; animation: mc-emoji 6s ease-in-out infinite; }
+.mc-hub { position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: #221a0e; border: 1px solid #c9a86a; z-index: 4; }
+@keyframes mc-seek { 0%{transform:rotate(-118deg)} 38%{transform:rotate(9deg)} 46%{transform:rotate(-4deg)} 52%{transform:rotate(1.5deg)} 58%{transform:rotate(0deg)} 78%{transform:rotate(0deg)} 100%{transform:rotate(-118deg)} }
+@keyframes mc-lock { 0%,52%{opacity:0;transform:scale(.6)} 60%{opacity:.9;transform:scale(1)} 80%{opacity:0;transform:scale(1.5)} 100%{opacity:0} }
+@keyframes mc-breathe { 0%,100%{transform:scale(.96);opacity:.5} 50%{transform:scale(1.05);opacity:.85} }
+@keyframes mc-emoji { 0%,52%{transform:translate(-50%,-50%) scale(1)} 60%{transform:translate(-50%,-50%) scale(1.14)} 80%{transform:translate(-50%,-50%) scale(1.06)} 100%{transform:translate(-50%,-50%) scale(1)} }
 
 .reveal-cta { font-size: 16px; color: #c4a8d4; font-weight: 500; letter-spacing: 0.01em; margin-bottom: 24px; }
 
@@ -71,12 +92,27 @@ body {
   </div>
 
   <div id="content">
-    <p class="kicker"><span id="kicker-name">someone</span> sent you a thought</p>
+    <p class="kicker"><span id="kicker-name">someone</span> sent you a thought &#10022;</p>
 
-    <div class="teaser-stage">
-      <div class="teaser-sky" id="teaser-sky"></div>
-      <div class="teaser-core" id="teaser-core"><!-- core mounted by mountTeaser() --></div>
-    </div>
+    <div class="mc-stage"><div class="mc-face">
+      <svg class="mc-art" viewBox="0 0 200 200" aria-hidden="true">
+        <defs><radialGradient id="mcf" cx="50%" cy="42%" r="58%">
+          <stop offset="0" stop-color="#221a0e"/><stop offset="1" stop-color="#120d06"/></radialGradient></defs>
+        <circle cx="100" cy="100" r="100" fill="url(#mcf)"/>
+        <circle cx="100" cy="100" r="99" fill="none" stroke="#e3c887" stroke-width="1.4" stroke-opacity=".9"/>
+        <circle cx="100" cy="100" r="97" fill="none" stroke="#8a703f" stroke-width=".5" stroke-opacity=".7"/>
+        <circle cx="100" cy="100" r="93" fill="none" stroke="#c9a86a" stroke-width="1" stroke-opacity=".8"/>
+        <line x1="100" y1="56" x2="100" y2="144" stroke="#56441f" stroke-width=".5" stroke-opacity=".8"/>
+        <line x1="56" y1="100" x2="144" y2="100" stroke="#56441f" stroke-width=".5" stroke-opacity=".8"/>
+        <circle cx="100" cy="100" r="64" fill="none" stroke="#8a703f" stroke-width=".5" stroke-dasharray="1.5 2" stroke-opacity=".8"/>
+        <g id="mc-ticks"></g>
+      </svg>
+      <div class="mc-breath"></div>
+      <div class="mc-lock"></div>
+      <div class="mc-needle"><i class="mc-nN"></i><i class="mc-nS"></i></div>
+      <div class="mc-emoji" id="mc-emoji" role="img" aria-label="thought">💭</div>
+      <div class="mc-hub"></div>
+    </div></div>
 
     <p class="reveal-cta">Finish the moment that <span id="reveal-name">someone</span> sent you &#10022;</p>
 
@@ -118,6 +154,27 @@ var SKY = {
   brand:     'radial-gradient(circle at 50% 45%,#1a1426 0%,#0d0d14 72%)'
 };
 function stars(list){ var s=''; for(var i=0;i<list.length;i++){ var c=list[i]; s+='<circle class="st" cx="'+c[0]+'" cy="'+c[1]+'" r="'+(c[2]||1)+'" style="animation-delay:'+(c[3]||0)+'s"/>'; } return s; }
+
+/* Vintage compass face marks — ticks(15°)/numbers(30°)/letters, mirrors app VintageFaceView (r92/r73/r54). */
+function mcFaceMarks(){
+  var s='', i, deg, rad, is90, len, x1, y1, x2, y2;
+  for(deg=0; deg<360; deg+=15){
+    rad=deg*Math.PI/180; is90=(deg%90===0); len=is90?10:7;
+    x1=100+Math.sin(rad)*92; y1=100-Math.cos(rad)*92;
+    x2=100+Math.sin(rad)*(92-len); y2=100-Math.cos(rad)*(92-len);
+    s+='<line x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+y2.toFixed(1)+'" stroke="'+(is90?'#e3c887':'#c9a86a')+'" stroke-width="'+(is90?1.2:0.8)+'" stroke-opacity="'+(is90?1:0.9)+'"/>';
+  }
+  for(deg=0; deg<360; deg+=30){
+    rad=deg*Math.PI/180; x1=100+Math.sin(rad)*73; y1=100-Math.cos(rad)*73;
+    s+='<text x="'+x1.toFixed(1)+'" y="'+y1.toFixed(1)+'" transform="rotate('+deg+' '+x1.toFixed(1)+' '+y1.toFixed(1)+')" text-anchor="middle" dominant-baseline="central" font-size="8" font-family="monospace" fill="'+(deg%90===0?'#e3c887':'#c9a86a')+'" fill-opacity="'+(deg%90===0?1:0.85)+'">'+deg+'</text>';
+  }
+  var card=['N','E','S','W'], inter=['NE','SE','SW','NW'];
+  for(i=0;i<4;i++){ rad=i*90*Math.PI/180; x1=100+Math.sin(rad)*54; y1=100-Math.cos(rad)*54;
+    s+='<text x="'+x1.toFixed(1)+'" y="'+y1.toFixed(1)+'" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="bold" font-family="Georgia,serif" fill="'+(i===0?'#e3c887':'#c9a86a')+'">'+card[i]+'</text>'; }
+  for(i=0;i<4;i++){ rad=(45+i*90)*Math.PI/180; x1=100+Math.sin(rad)*54; y1=100-Math.cos(rad)*54;
+    s+='<text x="'+x1.toFixed(1)+'" y="'+y1.toFixed(1)+'" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="600" font-family="Georgia,serif" fill="#c9a86a" fill-opacity=".9">'+inter[i]+'</text>'; }
+  return s;
+}
 
 /* ---------- GENERIC fallback (brand sky, emoji + halo) ---------- */
 function coreGeneric(ctx){
@@ -321,7 +378,7 @@ function render(msg){
   document.getElementById('kicker-name').textContent = name;
   document.getElementById('reveal-name').textContent = name;
   /* read the field that's already there → pick a teaser. content is NEVER rendered. */
-  mountTeaser(msg.instrument, { emoji: msg.emoji || '💭', name: name });
+  document.getElementById('mc-emoji').textContent = msg.emoji || '💭';
   /* recipient-facing short-code prompt removed (dead branch — source has no short_code field). Original preserved:
   if(msg.short_code){ document.getElementById('short-code').textContent = msg.short_code; document.getElementById('code-line').style.display='block'; } */
   document.getElementById('open-btn').href = INSTALL_URL;
@@ -330,6 +387,7 @@ function render(msg){
 }
 
 function load(){
+  var ticks=document.getElementById('mc-ticks'); if(ticks){ ticks.innerHTML = mcFaceMarks(); }
   document.getElementById('nf-btn').onclick = copyLink;
   document.getElementById('open-btn').onclick = copyLink;
   if(new URLSearchParams(window.location.search).get('teasertest')==='1'){ teaserSelfTest(); }
